@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelBox2_2", "MelBox2_2.csproj", "{40C6D966-69C4-480D-92FA-58698170278B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40C6D966-69C4-480D-92FA-58698170278B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C6D966-69C4-480D-92FA-58698170278B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C6D966-69C4-480D-92FA-58698170278B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C6D966-69C4-480D-92FA-58698170278B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF18892E-1831-488D-8A96-D59769B46911}
+	EndGlobalSection
+EndGlobal

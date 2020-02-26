@@ -1,0 +1,589 @@
+﻿<Window x:Class="MelBox2_2.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:MelBox2_2"
+        mc:Ignorable="d"
+        Title="MelBox2" Height="450" Width="800"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <x:Array x:Key="Hours" Type="sys:String">
+            <sys:String>0:00</sys:String>
+            <sys:String>1:00</sys:String>
+            <sys:String>2:00</sys:String>
+            <sys:String>3:00</sys:String>
+            <sys:String>4:00</sys:String>
+            <sys:String>5:00</sys:String>
+            <sys:String>6:00</sys:String>
+            <sys:String>7:00</sys:String>
+            <sys:String>8:00</sys:String>
+            <sys:String>9:00</sys:String>
+            <sys:String>10:00</sys:String>
+            <sys:String>11:00</sys:String>
+            <sys:String>12:00</sys:String>
+            <sys:String>13:00</sys:String>
+            <sys:String>14:00</sys:String>
+            <sys:String>15:00</sys:String>
+            <sys:String>16:00</sys:String>
+            <sys:String>17:00</sys:String>
+            <sys:String>18:00</sys:String>
+            <sys:String>19:00</sys:String>
+            <sys:String>20:00</sys:String>
+            <sys:String>21:00</sys:String>
+            <sys:String>22:00</sys:String>
+            <sys:String>23:00</sys:String>
+            <sys:String>24:00</sys:String>
+        </x:Array>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <TabControl>
+                <TabItem Header="TestFeld">
+                <Grid Background="#FFE5E5E5">
+                   
+                </Grid>
+            </TabItem>
+            <TabItem Header="Timer" PreviewMouseLeftButtonUp="Timer_Label_CurrentShift_MouseUp">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label x:Name="Timer_Label_CurrentShift" MouseUp="Timer_Label_CurrentShift_MouseUp">Aktuelle Empfänger (Bereitschaft):</Label>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Label  Content="Nächste Prüfung in " />
+                        <TextBox x:Name="Timer_TextBox_Countdown" Text="{Binding Path=Counter, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                        <Label  Content="Sekunden" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1">
+                        <DataGrid x:Name="Timer_DataGrid_CurrentShifts" ItemsSource="{Binding Path=Timer_CurrentShifts, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" CanUserAddRows="False" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Name" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=GuardName,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsEnabled="False" IsChecked="{Binding Path=SendViaEmail,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Sende Email an" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=SendToEmail,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsEnabled="False" IsChecked="{Binding Path=SendViaSMS,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Sende SMS an" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="+"/>
+                                                <TextBlock Text="{Binding Path=SendToCellphone,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Beginn" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=StartTime, StringFormat='{}{0:dd.MM.yyyy HH:mm}', UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Ende" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=EndTime, StringFormat='{}{0:dd.MM.yyyy HH:mm}', UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </StackPanel>
+                    <Label Grid.Row="2">Zuletzt empfangene Nachrichten:</Label>
+                    <Button Grid.Row="2" Content="Auswahl Sperren" Padding="5,0" HorizontalAlignment="Right" x:Name="Timer_Button_BlockMessage" Click="Timer_Button_BlockMessage_Click"/>
+                    <ScrollViewer Grid.Row="3" IsEnabled="True" >
+                        <StackPanel >
+                            <DataGrid x:Name="Timer_DataGrid_LastMessages" ItemsSource="{Binding Path=Timer_LastMessages, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" SelectionMode="Single" AutoGenerateColumns="False" CanUserReorderColumns="False" >
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Empfangen" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Empfangen,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="SMS">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=von_SMS,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Email">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=von_Email,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="von" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=von,  UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Inhalt" >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=Inhalt,  UpdateSourceTrigger=PropertyChanged}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text=">" HorizontalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Gesendet" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=Gesendet,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="SMS">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=an_SMS,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Email">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=an_Email,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="An" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Path=An,  UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Gesperrt">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=Gesperrt,  UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="GSM" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0">Signalstärke</Label>
+                    <ProgressBar Grid.Column="1" Grid.ColumnSpan="2" Margin="5" x:Name="Gsm_SignalQuality" Value="{Binding Path=GsmSignalQuality, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Maximum="100" MouseDoubleClick="Gsm_SignalQuality_MouseDoubleClick"  />
+
+                    <Label Grid.Row="1" Grid.Column="0" >GSM-Modem</Label>
+                    <StackPanel Grid.Row="2" Grid.RowSpan="9" Grid.Column="0" Margin="5">
+                        <CheckBox IsEnabled="False" Content="COM-Port" x:Name="Gsm_CheckBox_ComPort" IsChecked="{Binding Path=GsmComPortIsOpen, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox IsEnabled="False" Content="Kommunikation" x:Name="Gsm_CheckBox_Communication" IsChecked="{Binding Path=GsmCommunicationIsGood, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox IsEnabled="False" Content="TextModus" x:Name="Gsm_CheckBox_TextMode" IsChecked="{Binding Path=GsmTextModeIsSet, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox IsEnabled="False" Content="Zeichensatz" x:Name="Gsm_CheckBox_CharacterSet" IsChecked="{Binding Path=GsmCharactersetIsSet, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox IsEnabled="False" Content="Modemspeicher" x:Name="Gsm_CheckBox_ModemMemory" IsChecked="{Binding Path=GsmMemoryIsSet, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Margin="0,5" Content="Trennen" x:Name="Gsm_Button_PortClose" Click="Gsm_Button_PortClose_Click" />
+                    </StackPanel>
+
+                    <Label Grid.Row="1" Grid.Column="1"  >COM-Port</Label>
+                    <ComboBox Grid.Row="1" Grid.Column="2" x:Name="Gsm_AvailableComPorts" SelectionChanged="Gsm_AvailableComPorts_SelectionChanged" IsEnabled="{Binding Path=GsmComPortIsOpen, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Grid.Row="2" Grid.Column="1" >Baudrate</Label>
+                    <ComboBox Grid.Row="2" Grid.Column="2"  x:Name="Gsm_AvailableBaudRate" SelectionChanged="Gsm_AvailableBaudRate_SelectionChanged" IsEnabled="{Binding Path=GsmComPortIsOpen, UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBoxItem>300</ComboBoxItem>
+                        <ComboBoxItem>1200</ComboBoxItem>
+                        <ComboBoxItem>2400</ComboBoxItem>
+                        <ComboBoxItem>4800</ComboBoxItem>
+                        <ComboBoxItem>9600</ComboBoxItem>
+                        <ComboBoxItem>19200</ComboBoxItem>
+                        <ComboBoxItem>38400</ComboBoxItem>
+                        <ComboBoxItem>57600</ComboBoxItem>
+                        <ComboBoxItem>115200</ComboBoxItem>
+                    </ComboBox>
+                    <Label Grid.Row="3" Grid.Column="1" >Empfangen</Label>
+                    <Button Grid.Row="3" Grid.Column="2" x:Name="Gsm_Button_RecieveSmsTest" Content="Lese letzte SMS" Click="Gsm_Button_RecieveSmsTest_Click" />
+                    <Label Grid.Row="4" Grid.Column="1" >Senden</Label>
+                    <Button Grid.Row="4" Grid.Column="2" x:Name="Gsm_Button_SendTestSms" Content="Sende Test-SMS" Click="Gsm_Button_SendTestSms_Click" />
+                    <Label Grid.Row="4" Grid.Column="4" Foreground="Gray">Sendet eine SMS mit "SMSAbruf" von diesem GSM-Modem an dieses GSM-Modem.</Label>
+                    <Label Grid.Row="5" Grid.Column="1" >Simulation</Label>
+                    <Button Grid.Row="5" Grid.Column="2" Grid.RowSpan="2" x:Name="Gsm_Button_RecieveDummySms" Content="Empfange Dummy SMS" Click="Gsm_Button_RecieveDummySms_Click" />
+                    <Label Grid.Row="5" Grid.Column="3" >von</Label>
+                    <TextBox Grid.Row="5" Grid.Column="4" x:Name="Gsm_TextBox_DummySmsCellphone" Text="+490000000000"/>
+                    <Label Grid.Row="6" Grid.Column="3" >Inhalt</Label>
+                    <TextBox Grid.Row="6" Grid.Column="4" x:Name="Gsm_TextBox_DummySmsContent" Text="MelBox2Dummy, Dies ist eine simulierte Störmeldung."/>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Stammdaten" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.ColumnSpan="2" >Personen: (Bereitschaftsnehmer, Kunden, Alarmsender)</Label>
+                    
+                    <Label Grid.Row="2" Grid.Column="0" Content="Laufende Nummer:" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" x:Name="Mast_TextBlock_Person_Id" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Unbekannter Absender:**" />
+                    <ComboBox  Grid.Row="3" Grid.Column="1" x:Name="Mast_ComboBox_UnknownPersons" IsEnabled="False" SelectionChanged="Mast_ComboBox_UnknownPersons_SelectionChanged"/>
+
+
+                    <Label Grid.Row="5" Grid.Column="0" Content="Name:" />
+                    <TextBox Grid.Row="5" Grid.Column="1" x:Name="Mast_TextBox_Name"  />
+                    <Label Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="50,0" Foreground="Gray" Content="[Platzhalter: %]"/>
+                    <Button Grid.Row="5" Grid.Column="1" Content="suchen" HorizontalAlignment="Right" Padding="5,0" x:Name="Mast_Button_SearchName" Click="Mast_Button_SearchName_Click"/>
+                                   
+                    <Label Grid.Row="6" Grid.Column="0" Content="Firma:" />
+                    <ComboBox Grid.Row="6" Grid.Column="1" x:Name="Mast_ComboBox_Company" SelectionChanged="Mast_ComboBox_Company_SelectionChanged" />
+
+
+                    <Expander Grid.Row="7" Grid.Column="1" Header="Infos zur Firma" x:Name="Mast_Company_Expander">
+                        <StackPanel Margin="10,0,0,10">
+                            <TextBox x:Name="Mast_TextBox_Company_Id" Visibility="Collapsed"/>
+                            <Label Content="Firmenbezeichnung" />
+                            <TextBox x:Name="Mast_TextBox_Company_Name"/>
+                            <Label Content="Adresse"/>
+                            <TextBox x:Name="Mast_TextBox_Company_Address"/>
+                            <Label Content="Postleitzahl"/>
+                            <TextBox x:Name="Mast_TextBox_Company_ZipCode"/>
+                            <Label Content="Ort"/>
+                            <TextBox x:Name="Mast_TextBox_Company_City"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Firma löschen" Margin="5" MaxHeight="20" x:Name="Mast_Button_DeleteCompany"  Click="Mast_Button_DeleteCompany_Click"/>
+                                <Button Content="Firma ändern" Margin="5" MaxHeight="20"  IsEnabled="{Binding ElementName=Mast_TextBox_Company_Name, Path=Text.Length, Mode=OneWay}" x:Name="Mast_Button_UpdateCompany" Click="Mast_Button_UpdateCompany_Click" />
+                                <Button Content="Firma erstellen" Margin="5" MaxHeight="20"  IsEnabled="{Binding ElementName=Mast_TextBox_Company_Name, Path=Text.Length, Mode=OneWay}" x:Name="Mast_Button_CreateCompany" Click="Mast_Button_CreateCompany_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+
+                    <Label Grid.Row="8" Grid.Column="0" Content="Email:" />
+                    <TextBox Grid.Row="8" Grid.Column="1" VerticalContentAlignment="Center" x:Name="Mast_TextBox_Email" />
+
+                    <Label Grid.Row="9" Grid.Column="0" Content="Mobiltelefon:" />
+                    <TextBox Grid.Row="9" Grid.Column="1" x:Name="Mast_TextBox_Cellphone" />
+
+                    <Label Grid.Row="10" Grid.Column="0" Content="SMS Schlüsselwort(e):**" />
+                    <TextBox Grid.Row="10" Grid.Column="1" x:Name="Mast_TextBox_KeyWord" />
+
+                    <Label Grid.Row="11" Grid.Column="0" Content="Max. Inaktive Stunden:**" />
+                    <TextBox Grid.Row="11" Grid.Column="1" x:Name="Mast_TextBox_MaxInactivity" />
+
+                    <Label Grid.Row="12" Grid.Column="0" Content="Empfängt:*" />
+                    
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="12" Grid.Column="1" >
+                        <CheckBox Content="SMS" Margin="3" x:Name="Mast_CheckBox_RecievesSMS" />
+                        <CheckBox Content="Email" Margin="3" x:Name="Mast_CheckBox_RecievesEmail" />
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal">
+                        <Button Content="Datensatz löschen" Margin="5" x:Name="Mast_Button_DeletePerson" Click="Mast_Button_DeletePerson_Click"/>
+                        <Button Content="Datensatz ändern" Margin="5" x:Name="Mast_Button_UpdatePerson" Click="Mast_Button_UpdatePerson_Click"/>
+                        <Button Content="Datensatz erstellen" Margin="5" x:Name="Mast_Button_CreatePerson" Click="Mast_Button_CreatePerson_Click" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="14" Grid.Column="1">* = für Bereitschaft , ** = nur Alarmsender</TextBlock>
+
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Kalender" MouseUp="Cal_TabItem_MouseUp">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5">
+
+                        <DatePicker SelectedDate="{Binding Path=Cal_LastServiceDate, UpdateSourceTrigger=PropertyChanged}" x:Name="Cal_DatePicker" IsTodayHighlighted="True" SelectedDateChanged="Cal_DatePicker_CalendarClosed" />
+                        <Label>durch:</Label>
+                        <ComboBox x:Name="Cal_ComboBox_Personal" ItemsSource="{Binding Path=Cal_AvailablePersonal, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Cal_ComboBox_Personal_SelectionChanged" MinWidth="150"/>
+                        
+                        <Label>von:</Label>
+                        <ComboBox Grid.Row="1" Grid.Column="3" MinWidth="50" x:Name="Cal_TimeFrom" ItemsSource="{Binding Source={StaticResource Hours}}" SelectedValue="17:00" />
+
+                        <Label>bis:</Label>
+                        <ComboBox Grid.Row="1" Grid.Column="5" MinWidth="50" x:Name="Cal_TimeTo" ItemsSource="{Binding Source={StaticResource Hours}}" SelectedValue="7:00" />
+
+                        <Label>am Folgetag. SMS:</Label>
+                        <CheckBox VerticalAlignment="Center" x:Name="Cal_SendViaSMS_CheckBox" IsChecked="{Binding Path=SendViaSMS, UpdateSourceTrigger=PropertyChanged}" />
+                        
+                        <Label>Email:</Label>
+                        <CheckBox VerticalAlignment="Center" x:Name="Cal_SendViaEmail_CheckBox" IsChecked="{Binding Path=SendViaEmail, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="3" x:Name="Cal_DataGrid" ItemsSource="{Binding Path=Cal_ShiftsCollection, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" CanUserAddRows="False" AutoGenerateColumns="False" SelectionChanged="Cal_DataGrid_SelectionChanged" >
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="ID" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=ShiftsId,  UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Name" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=GuardName,  UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="StartDatum" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=StartTime,  UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:dd.MM.yyyy\} }"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="StartZeit" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Path=StartTimeHour,  UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:00:\}00}"/>
+                                            <Slider Style="{StaticResource Horizontal_SliderLeft}" x:Name="Cal_StartTimeBeam" Value="{Binding Path=StartTimeHour,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Minimum="0" Maximum="24" Width="200" TickPlacement="BottomRight" ValueChanged="Cal_StartTimeBeam_ValueChanged">
+                                                <Slider.Background>
+                                                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,0">
+                                                        <GradientStop Color="MidnightBlue" Offset="0"/>
+                                                        <GradientStop Color="#FFFFFFFF" Offset="0.3"/>
+                                                    </LinearGradientBrush>
+                                                </Slider.Background>
+                                            </Slider>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="EndZeit am Folgetag" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Slider Style="{StaticResource Horizontal_SliderRight}" x:Name="Cal_EndTimeBeam" Value="{Binding Path=EndTimeHour,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Minimum="0" Maximum="24" Width="200" TickPlacement="BottomRight" ValueChanged="Cal_EndTimeBeam_ValueChanged">
+                                                <Slider.Background>
+                                                    <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+                                                        <GradientStop Color="MidnightBlue" Offset="0"/>
+                                                        <GradientStop Color="#FFFFFFFF" Offset="0.3"/>
+                                                    </LinearGradientBrush>
+                                                </Slider.Background>
+                                            </Slider>
+                                            <TextBlock Text="{Binding Path=EndTimeHour,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay , StringFormat=\{0:00:\}00}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="SMS" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=SendViaSMS,  UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Email" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=SendViaEmail,  UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding Path=IsWeekend}" Value="True">
+                                        <Setter Property="Background" Value="LightGoldenrodYellow"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding Path=IsHoliday}" Value="True">
+                                        <Setter Property="Background" Value="LightPink"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding Path=IsPastTime}" Value="True">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                        <Setter Property="Foreground" Value="DarkGray"/>
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5" >
+                        <CheckBox IsChecked="True" Margin="0,0,10,0" VerticalAlignment="Center"  x:Name="Cal_CheckBox_BlackOutCalenderDays" Checked="Cal_CheckBox_BlackOutCalenderDays_Checked" Unchecked="Cal_CheckBox_BlackOutCalenderDays_Unchecked">Kalendertage mit Schichten sperren</CheckBox>
+                        <Button Content="Tag Löschen" Margin="0,0,15,0" IsEnabled="False" x:Name="Cal_Button_DeleteServiceTimeSpan" Click="Cal_Button_DeleteServiceTimeSpan_Click" ToolTip="Löscht den in der Liste ausgewählten Tageseintrag."/>
+
+                        <Button Content="Tag Ändern" Margin="0,0,10,0" IsEnabled="False" x:Name="Cal_Button_UpdateServiceTimeSpan" Click="Cal_Button_UpdateServiceTimeSpan_Click" ToolTip="Schreibt die aktuell selektrierte Person und eingestellte Zeit für den in der Liste ausgewählten Tag."/>
+                        <Button Content="Woche Ändern" Margin="0,0,15,0" IsEnabled="False" x:Name="Cal_Button_UpdateServiceWeek" Click="Cal_Button_UpdateServiceWeek_Click" ToolTip="Ersetzt den Bereitschaftsnehmer durch die selektierte Person in der Kalenderwoche des Markierten Tages." />
+                        <Button Content="Neuer Tag"  Margin="0,0,10,0" x:Name="Cal_Button_CreateServiceTimeSpan" Click="Cal_Button_CreateServiceTimeSpan_Click" ToolTip="Erzeugt einen neuen Eintrag in der Liste mit den oben ausgwählten Datum, Person, Uhrzeit von - bis, Benachrichtigungsform."/>
+                        <Button Content="Neue Woche" Margin="0,0,10,0" x:Name="Cal_Button_CreateNewServiceWeek" Click="Cal_Button_CreateNewServiceWeek_Click" ToolTip="Erzeugt eine Standardbereitschaftswoche für die ausgewählte Person zu dem oben ausgewähltem Datum."/>
+                        <Rectangle Width="10" Height="10" Fill="LightGray"/>
+                        <Label>Vergangen</Label>
+                        <Rectangle Width="10" Height="10" Fill="LightGoldenrodYellow"/>
+                        <Label>Wochenende</Label>
+                        <Rectangle Width="10" Height="10" Fill="LightPink"/>
+                        <Label>Feiertag</Label>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Gesperrt">
+                <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                    
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Gesperrte Nachrichten"/>
+                        <TextBox x:Name="Blocked_TextBlock_Filter" MinWidth="200" Margin="5,0" ToolTip="Filterbegriff. Mindestens 3 Zeichen. Platzhalter: '%'" VerticalAlignment="Center" Text="%Filterbegriff%"/>
+                        <Button Content="Filtern" x:Name="Blocked_Button_Filter" Padding="5,0" Margin="5,0" Click="Blocked_Button_Filter_Click"/>
+                        <Button Content="Auswahl freigeben" x:Name="Blocked_Button_Release" Padding="5,0" Margin="5,0" Click="Blocked_Button_Release_Click"/>
+                </StackPanel>
+                    <ScrollViewer Grid.Row="1">
+                    <DataGrid  x:Name="Blocked_DataGrid" ItemsSource="{Binding Path=BlockedMessages, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Inhalt" Binding="{Binding Content}" MinWidth="500"/>
+                                <DataGridComboBoxColumn Header="Beginn" ItemsSource="{Binding Source={StaticResource Hours}}" >
+                                    <DataGridComboBoxColumn.ElementStyle>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="SelectedIndex" Value="{Binding StartHour,  UpdateSourceTrigger=PropertyChanged}" />
+                                        </Style>
+                                    </DataGridComboBoxColumn.ElementStyle>
+                                </DataGridComboBoxColumn>
+                                <DataGridComboBoxColumn Header="Ende" ItemsSource="{Binding Source={StaticResource Hours}}" >
+                                    <DataGridComboBoxColumn.ElementStyle>
+                                        <Style TargetType="ComboBox">
+                                            <Setter Property="SelectedIndex" Value="{Binding EndHour,  UpdateSourceTrigger=PropertyChanged}" />
+                                        </Style>
+                                    </DataGridComboBoxColumn.ElementStyle>
+                                </DataGridComboBoxColumn>
+
+                                <DataGridCheckBoxColumn Header="nur Wochentage" Binding="{Binding WorkdaysOnly}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Tabellen">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" >
+                        <Label Margin="10,0,10,0">Rohdaten aus Tabelle: </Label>
+                        <ComboBox x:Name="Tab_ComboBoxTables" Width="120" VerticalContentAlignment="Center" SelectionChanged="Tab_ComboBoxTables_SelectionChanged" />
+                        <Label Margin="10,0,10,0">letzte</Label>
+                        <TextBox x:Name="Tab_TextBox_NumRows" Text="10" VerticalContentAlignment="Center"  HorizontalContentAlignment="Right" Width="40"/>
+                        <Label Margin="10,0,10,0">Einträge</Label>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Path=Tab_DataTable, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </TabItem>
+            
+        </TabControl>
+        
+        <StatusBar Grid.Row="1" VerticalAlignment="Bottom" Margin="5">
+            <StatusBarItem>
+                <Label Content="Status: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Path=StatusBarText}" />
+            </StatusBarItem>
+        </StatusBar>
+
+    </Grid>
+</Window>
